@@ -6,6 +6,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.zhouhy.securityproject.browser.authentication.MyAuthenticationSuccessHandler;
 import org.zhouhy.securityproject.core.properties.SecurityProperties;
 
 @Configuration
@@ -13,6 +16,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SecurityProperties securityProperties;
+
+    @Autowired
+    private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
+
+    @Autowired
+    private AuthenticationFailureHandler myAuthenticationFailureHandler;
+
 
     @Bean
     PasswordEncoder passwordEncoder(){
@@ -24,6 +34,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/authentication/request")
                 .loginProcessingUrl("/authentication/form")
+                .successHandler(myAuthenticationSuccessHandler)
+                .failureHandler(myAuthenticationFailureHandler)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/request"

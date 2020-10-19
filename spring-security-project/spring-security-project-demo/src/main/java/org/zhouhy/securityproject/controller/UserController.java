@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.zhouhy.securityproject.dto.User;
@@ -17,6 +18,10 @@ import java.util.List;
 @RestController
 public class UserController {
 
+    @RequestMapping(value="/me")
+    public Object me(){
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 
     @RequestMapping(value="/users",method=RequestMethod.POST)
     public User createUser(@RequestBody User user){
