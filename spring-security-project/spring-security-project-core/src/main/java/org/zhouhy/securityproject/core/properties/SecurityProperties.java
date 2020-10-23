@@ -3,16 +3,27 @@ package org.zhouhy.securityproject.core.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "imook.security.browser")
+
+@ConfigurationProperties(prefix = "imook.security")
 public class SecurityProperties {
 
-    private BrowserProperties browserProperties = new BrowserProperties();
+    private BrowserProperties browser = new BrowserProperties();
 
-    public BrowserProperties getBrowserProperties() {
-        return browserProperties;
+    private ValidateCodeProperties code = new ValidateCodeProperties();
+
+    public BrowserProperties getBrowser() {
+        return browser;
     }
 
-    public void setBrowserProperties(BrowserProperties browserProperties) {
-        this.browserProperties = browserProperties;
+    public void setBrowser(BrowserProperties browserProperties) {
+        this.browser = browserProperties;
+    }
+
+    public ValidateCodeProperties getCode() {
+        return code;
+    }
+
+    public void setCode(ValidateCodeProperties code) {
+        this.code = code;
     }
 }

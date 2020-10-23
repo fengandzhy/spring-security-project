@@ -36,13 +36,13 @@ public class BrowserSecurityController {
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleContent requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        System.out.println(securityProperties.getBrowserProperties().getLoginPage());
+        System.out.println(securityProperties.getBrowser().getLoginPage());
         SavedRequest savedRequest = requestCache.getRequest(request,response);
         if(savedRequest!=null){
             String targetUrl = savedRequest.getRedirectUrl();
             log.info("引发跳转的路径是:"+targetUrl);
             if(StringUtils.endsWithIgnoreCase(targetUrl,".html")){
-                redirectStrategy.sendRedirect(request,response,securityProperties.getBrowserProperties().getLoginPage());
+                redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getLoginPage());
             }
         }
 

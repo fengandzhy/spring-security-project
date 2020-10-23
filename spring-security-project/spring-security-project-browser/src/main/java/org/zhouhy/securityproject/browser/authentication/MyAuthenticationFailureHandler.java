@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
+import org.zhouhy.securityproject.browser.support.SimpleContent;
 import org.zhouhy.securityproject.core.properties.LoginType;
 import org.zhouhy.securityproject.core.properties.SecurityProperties;
 
@@ -31,11 +31,12 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
-        log.info("login failure");
-        if(LoginType.values().equals(securityProperties.getBrowserProperties().getLoginType())){
+
+        log.info("登录失败");
+        if(LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())){
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectmapper.writeValueAsString(exception));
+            response.getWriter().write(objectmapper.writeValueAsString(new SimpleContent(exception.getMessage())));
         }else{
             super.onAuthenticationFailure(request,response,exception);
         }
