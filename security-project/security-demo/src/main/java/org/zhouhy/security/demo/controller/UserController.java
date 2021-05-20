@@ -22,4 +22,21 @@ public class UserController {
         users.add(new User());
         return users;
     }
+
+    @PostMapping(value="/user")
+    public User createUser (@RequestBody User user){
+        System.out.println(user.toString());
+        return user;
+    }
+
+    @RequestMapping(value="/users",method=RequestMethod.POST)
+    public User createUser1(@RequestBody User user){
+
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getBirthday());
+
+        user.setId(1);
+        return user;
+    }
 }
